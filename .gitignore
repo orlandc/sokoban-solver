@@ -1,4 +1,5 @@
 # Object file
 .vscode
 .gitignore
-.pyc
+*.pyc
+mapa/map.txt

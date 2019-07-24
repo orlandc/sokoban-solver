@@ -7,7 +7,6 @@ DIRECCION = {
     'L' : Posicion(-1,0)
 }
 
-
 class Tablero(object):
 
     def __init__(self):
@@ -30,18 +29,6 @@ class Tablero(object):
         self.movimientos.append(direccion)
 
         return self
-
-    def heuristica(self):
-        cajas_sin_colocar     = self.cajas.difference(self.objetivos)
-        objetivo_sin_alcanzar = self.objetivos.difference(self.cajas)
-        if not cajas_sin_colocar:
-            return 0
-
-        distancia_jugador = min([self.jugador.dist(caja) for caja in cajas_sin_colocar])
-
-        distancia_caja = sum([min([caja.dist(objetivo) for objetivo in objetivo_sin_alcanzar]) for caja in cajas_sin_colocar])
-
-        return distancia_jugador + distancia_caja
 
     def finalizar(self):
         if not self.objetivos.difference(self.cajas):
@@ -96,13 +83,13 @@ class Tablero(object):
         for caja in self.cajas.difference(self.objetivos):
             str_tablero[caja.y][caja.x] = '$'
 
-        for caja in self.objetivo.union(self.cajas):
+        for caja in self.objetivos.union(self.cajas):
             str_tablero[caja.y][caja.x] = '*'
 
         for objetivo in self.objetivos.difference(self.cajas):
             str_tablero[objetivo.y][objetivo.x] = '.'
 
-        if self.jugador in self.goals:
+        if self.jugador in self.objetivos:
             str_tablero[self.jugador.y][self.jugador.x] = '@'
         else:
             str_tablero[self.jugador.y][self.jugador.x] = '+'

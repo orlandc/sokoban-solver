@@ -1,55 +1,39 @@
 from copy import deepcopy
 
-def depth_first_search(board, print_steps=None):
-    """
-    @param board: a Board object
-    @param print_steps: flag to print intermediate steps
-    @return (records, board)
-        records: a dictionary keeping track of necessary statistics
-        board: a copy of the board at the finished state.
-            Contains an array of all moves performed.
-    Performs a depth first search on the sokoban board.
-    Doesn't add duplicate nodes to the stack so as to prevent looping.
-    """
-    records = {
-        'node' : 0,
-        'repeat' : 0,
-        'fringe' : 0,
-        'explored' : set()
+def depth_first_search(tablero):
+    registro = {
+        'nodo'      : 0,
+        'repetir'   : 0,
+        'franja'    : 0,
+        'explorado' : set()
     }
 
-    if print_steps:
-        print 'repeat\tseen'
+    if tablero.finalizar():
+        return registro, tablero
 
-    if board.finished():    # check if initial state is complete
-        return records, board
-
-    board_queue = [board]   # initialize queue
+    cola = [tablero]
 
     while True:
-        if print_steps:
-            print "{}\t{}".format(records['repeat'], len(records['explored']))
+        if not cola:
+            print registro
+            raise Exception('No existe Solucion.')
 
-        if not board_queue: # if empty queue, fail
-            print records
-            raise Exception('Solution not found.')
+        nodo = cola.pop(0)
+        registro['explorado'].add(hash(nodo))
+        registro['franja'] = len(cola)
 
-        node_board = board_queue.pop(0)
-        records['explored'].add(hash(node_board))
-        records['fringe'] = len(board_queue)
+        if nodo.finalizar():
+            return registro, nodo
 
-        if node_board.finished():   # if finished, return
-            return records, node_board
+        opciones = nodo.movimientos_disponibles()
+        if not opciones:
+            cola.pop(0)    
+        else:
+            for direccion, cost in opciones:
+                registro['nodo'] += 1
+                hijo = deepcopy(nodo).mover(direccion)
 
-        choices = node_board.moves_available()
-        if not choices:     # if no options
-            board_queue.pop(0)    
-        else:               # regular
-            for direction, cost in choices:
-                records['node'] += 1
-                child_board = deepcopy(node_board).move(direction)
-
-                if hash(child_board) not in records['explored'] and child_board not in board_queue:
-                    board_queue.insert(0, child_board)
+                if hash(hijo) not in registro['explorado'] and hijo not in cola:
+                    cola.insert(0, hijo)
                 else:
-                    records['repeat'] += 1
+                    registro['repetir'] += 1

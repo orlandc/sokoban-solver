@@ -1,3 +1,6 @@
+#Integrantes:
+#- Juan Gabriel Rodriguez 201710191
+#- Orlando Montenegro     201427277
 import sys
 import os
 
@@ -22,11 +25,11 @@ def correr_busqueda(tipo_busqueda=0):
     
     if tipo_busqueda == 1:
         resultados, tablero = BFS(tablero)
-    if tipo_busqueda == 2:
+    elif tipo_busqueda == 2:
         resultados, tablero = DFS(tablero)
-    if tipo_busqueda == 3:
+    elif tipo_busqueda == 3:
         resultados, tablero = IDS(tablero)
-    if tipo_busqueda == 0:
+    elif tipo_busqueda == 0:
         print("No se envio el parametro tipo de busqueda")
         exit()
     else:
@@ -50,4 +53,5 @@ if __name__ == '__main__':
     
     TMP()
     resultados, tablero = correr_busqueda(int(parametro))
-    print(resultados)
+    print(tablero.movimientos)
+    #print(tablero)

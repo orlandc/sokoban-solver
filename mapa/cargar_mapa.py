@@ -11,10 +11,10 @@ def Cargar_Mapa(map_str):
     map_lineas = map_str.split('\n')
     tablero_nuevo.num_lineas = int(len(map_lineas[0].strip()))
 
-    for y, line in enumerate(map_lineas[1:]):
-        line = line.replace('\n', '')
-        if line:
-            for x, char in enumerate(line):
+    for y, linea in enumerate(map_lineas[0:]):
+        linea = linea.replace('\n', '')
+        if linea:
+            for x, char in enumerate(linea):
                 pos = (x, y)
 
                 if char in PARED:
